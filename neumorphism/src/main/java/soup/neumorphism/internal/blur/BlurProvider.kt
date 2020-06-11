@@ -8,6 +8,7 @@ import android.graphics.PorterDuffColorFilter
 import android.renderscript.*
 import soup.neumorphism.internal.util.onCanvas
 import java.lang.ref.WeakReference
+import kotlin.math.abs
 import kotlin.math.max
 import kotlin.math.min
 
@@ -187,7 +188,7 @@ internal class BlurProvider(context: Context) {
                 sir[0] = p and 0xff0000 shr 16
                 sir[1] = p and 0x00ff00 shr 8
                 sir[2] = p and 0x0000ff
-                rbs = r1 - Math.abs(i)
+                rbs = r1 - abs(i)
                 rsum += sir[0] * rbs
                 gsum += sir[1] * rbs
                 bsum += sir[2] * rbs
@@ -217,7 +218,7 @@ internal class BlurProvider(context: Context) {
                 goutsum -= sir[1]
                 boutsum -= sir[2]
                 if (y == 0) {
-                    vmin[x] = Math.min(x + radius + 1, wm)
+                    vmin[x] = min(x + radius + 1, wm)
                 }
                 p = pix[yw + vmin[x]]
                 sir[0] = p and 0xff0000 shr 16
@@ -257,12 +258,12 @@ internal class BlurProvider(context: Context) {
             yp = -radius * w
             i = -radius
             while (i <= radius) {
-                yi = Math.max(0, yp) + x
+                yi = max(0, yp) + x
                 sir = stack[i + radius]
                 sir[0] = r[yi]
                 sir[1] = g[yi]
                 sir[2] = b[yi]
-                rbs = r1 - Math.abs(i)
+                rbs = r1 - abs(i)
                 rsum += r[yi] * rbs
                 gsum += g[yi] * rbs
                 bsum += b[yi] * rbs
@@ -295,7 +296,7 @@ internal class BlurProvider(context: Context) {
                 goutsum -= sir[1]
                 boutsum -= sir[2]
                 if (x == 0) {
-                    vmin[y] = Math.min(y + r1, hm) * w
+                    vmin[y] = min(y + r1, hm) * w
                 }
                 p = x + vmin[y]
                 sir[0] = r[p]

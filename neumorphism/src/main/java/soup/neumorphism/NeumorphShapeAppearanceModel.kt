@@ -74,7 +74,7 @@ class NeumorphShapeAppearanceModel {
             context: Context,
             attrs: AttributeSet?,
             @AttrRes defStyleAttr: Int,
-            @StyleRes defStyleRes: Int,
+            @StyleRes defStyleRes: Int = 0,
             defaultCornerSize: Float = 0f
         ): Builder {
             val a = context.obtainStyledAttributes(

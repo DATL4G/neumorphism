@@ -1,25 +1,48 @@
 package soup.neumorphism
 
+import android.annotation.TargetApi
 import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Canvas
 import android.graphics.drawable.Drawable
+import android.os.Build
 import android.util.AttributeSet
 import android.util.Log
 import android.view.View
 import android.widget.FrameLayout
 import androidx.annotation.ColorInt
+import androidx.core.view.ViewCompat
 import soup.neumorphism.internal.util.NeumorphResources
 
-class NeumorphCardView @JvmOverloads constructor(
-    context: Context,
-    attrs: AttributeSet? = null,
-    defStyleAttr: Int = R.attr.neumorphCardViewStyle,
-    defStyleRes: Int = R.style.Widget_Neumorph_CardView
-) : FrameLayout(context, attrs, defStyleAttr, defStyleRes) {
+class NeumorphCardView : FrameLayout {
 
     private var isInitialized: Boolean = false
     private val shapeDrawable: NeumorphShapeDrawable
+
+    private var attrs: AttributeSet? = null
+    private var defStyleAttr: Int = 0
+    private var defStyleRes: Int = 0
+
+    @JvmOverloads constructor(
+        context: Context,
+        attrs: AttributeSet? = null,
+        defStyleAttr: Int = R.attr.neumorphCardViewStyle
+    ) : super(context, attrs, defStyleAttr) {
+        this.attrs = attrs
+        this.defStyleAttr = defStyleAttr
+    }
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    constructor(
+        context: Context,
+        attrs: AttributeSet? = null,
+        defStyleAttr: Int = R.attr.neumorphCardViewStyle,
+        defStyleRes: Int = R.style.Widget_Neumorph_CardView
+    ) : super(context, attrs, defStyleAttr, defStyleRes) {
+        this.attrs = attrs
+        this.defStyleAttr = defStyleAttr
+        this.defStyleRes = defStyleRes
+    }
 
     init {
         val a = context.obtainStyledAttributes(
@@ -52,7 +75,7 @@ class NeumorphCardView @JvmOverloads constructor(
             setShadowColorDark(shadowColorDark)
             setFillColor(fillColor)
             setStroke(strokeWidth, strokeColor)
-            setTranslationZ(translationZ)
+            setTranslationZ(ViewCompat.getTranslationZ(this@NeumorphCardView))
 
             val left = paddingLeft
             val top = paddingTop

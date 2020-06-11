@@ -1,9 +1,11 @@
 package soup.neumorphism
 
+import android.annotation.TargetApi
 import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.*
 import android.graphics.drawable.Drawable
+import android.os.Build
 import android.util.AttributeSet
 import androidx.annotation.AttrRes
 import androidx.annotation.ColorInt
@@ -13,6 +15,7 @@ import soup.neumorphism.internal.shape.BasinShape
 import soup.neumorphism.internal.shape.FlatShape
 import soup.neumorphism.internal.shape.PressedShape
 import soup.neumorphism.internal.shape.Shape
+import soup.neumorphism.internal.util.PathCompat
 
 class NeumorphShapeDrawable : Drawable {
 
@@ -36,6 +39,16 @@ class NeumorphShapeDrawable : Drawable {
 
     constructor(context: Context) : this(NeumorphShapeAppearanceModel(), BlurProvider(context))
 
+    constructor(
+        context: Context,
+        attrs: AttributeSet?,
+        @AttrRes defStyleAttr: Int
+    ) : this(
+        NeumorphShapeAppearanceModel.builder(context, attrs, defStyleAttr).build(),
+        BlurProvider(context)
+    )
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     constructor(
         context: Context,
         attrs: AttributeSet?,
@@ -305,20 +318,17 @@ class NeumorphShapeDrawable : Drawable {
         path.reset()
         when (drawableState.shapeAppearanceModel.getCornerFamily()) {
             CornerFamily.OVAL -> {
-                path.addOval(left, top, right, bottom, Path.Direction.CW)
+                PathCompat.addOval(path, left, top, right, bottom, Path.Direction.CW)
             }
             CornerFamily.ROUNDED -> {
                 val cornerSize = drawableState.shapeAppearanceModel.getCornerSize()
-                path.addRoundRect(
-                    left, top, right, bottom,
-                    cornerSize, cornerSize,
-                    Path.Direction.CW
-                )
+                PathCompat.addRoundRect(path, left, top, right, bottom, cornerSize, cornerSize, Path.Direction.CW)
             }
         }
         path.close()
     }
 
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     override fun getOutline(outline: Outline) {
         when (drawableState.shapeAppearanceModel.getCornerFamily()) {
             CornerFamily.OVAL -> {

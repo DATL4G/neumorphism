@@ -7,6 +7,7 @@ import android.util.AttributeSet
 import android.util.Log
 import androidx.annotation.ColorInt
 import androidx.appcompat.widget.AppCompatImageButton
+import androidx.core.view.ViewCompat
 import soup.neumorphism.internal.util.NeumorphResources
 
 class NeumorphImageButton @JvmOverloads constructor(
@@ -50,7 +51,7 @@ class NeumorphImageButton @JvmOverloads constructor(
             setShadowColorDark(shadowColorDark)
             setFillColor(fillColor)
             setStroke(strokeWidth, strokeColor)
-            setTranslationZ(translationZ)
+            setTranslationZ(ViewCompat.getTranslationZ(this@NeumorphImageButton))
 
             val left = paddingLeft
             val top = paddingTop

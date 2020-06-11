@@ -7,6 +7,7 @@ import android.util.AttributeSet
 import android.util.Log
 import androidx.annotation.ColorInt
 import androidx.appcompat.widget.AppCompatImageView
+import androidx.core.view.ViewCompat
 import soup.neumorphism.internal.util.NeumorphResources
 
 class NeumorphImageView @JvmOverloads constructor(
@@ -50,7 +51,7 @@ class NeumorphImageView @JvmOverloads constructor(
             setShadowColorDark(shadowColorDark)
             setFillColor(fillColor)
             setStroke(strokeWidth, strokeColor)
-            setTranslationZ(translationZ)
+            setTranslationZ(ViewCompat.getTranslationZ(this@NeumorphImageView))
 
             val left = paddingLeft
             val top = paddingTop
